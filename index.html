@@ -12,17 +12,17 @@
 :root{
   --bg:#f6f6f4; --surface:#ffffff; --fg:#1b1d22; --muted:#5d6370; --line:#d9dbdf;
   --accent:#c8102e;
-  --c-pol:#1f5fa8; --c-uprava:#8a5a00; --c-izbori:#6b3fa0; --c-fin:#0f7a5c; --c-obr:#9c3d5a;
+  --c-pol:#1f5fa8; --c-uprava:#8a5a00; --c-izbori:#6b3fa0; --c-fin:#0f7a5c; --c-obr:#9c3d5a; --c-nas:#b5431c;
   --display:"Archivo Narrow","Arial Narrow",Arial,sans-serif;
   --body:"Source Serif 4",Georgia,serif;
   --mono:"IBM Plex Mono",ui-monospace,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#121317; --surface:#1b1d23; --fg:#ecedf0; --muted:#a2a7b3; --line:#30333b;
-  --accent:#ff5468; --c-pol:#6ea8ff; --c-uprava:#e0aa45; --c-izbori:#b892ec; --c-fin:#4fcf9f; --c-obr:#ec8aa8; color-scheme:dark}}
+  --accent:#ff5468; --c-pol:#6ea8ff; --c-uprava:#e0aa45; --c-izbori:#b892ec; --c-fin:#4fcf9f; --c-obr:#ec8aa8; --c-nas:#f08a5d; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#121317; --surface:#1b1d23; --fg:#ecedf0; --muted:#a2a7b3; --line:#30333b;
-  --accent:#ff5468; --c-pol:#6ea8ff; --c-uprava:#e0aa45; --c-izbori:#b892ec; --c-fin:#4fcf9f; --c-obr:#ec8aa8; color-scheme:dark}
+  --accent:#ff5468; --c-pol:#6ea8ff; --c-uprava:#e0aa45; --c-izbori:#b892ec; --c-fin:#4fcf9f; --c-obr:#ec8aa8; --c-nas:#f08a5d; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55}
 .wrap{max-width:820px;margin:0 auto;padding-block:32px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
@@ -47,9 +47,11 @@ ol.tl::before{content:"";position:absolute;left:84px;top:6px;bottom:6px;width:2p
 .tag{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--c)}
 .card h2{font-family:var(--display);font-size:21px;font-weight:600;line-height:1.2;margin:3px 0 2px}
 .role{color:var(--muted);font-size:15px}
+.role .n{font-family:var(--mono);font-weight:500;color:var(--fg)}
 .more{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:6px;display:inline-block}
 .detail{padding:0 16px 16px;border-top:1px dashed var(--line);margin:0 16px;padding-inline:0;padding-top:12px}
-.detail p{margin:0 0 10px}
+.detail p{margin:0 0 10px;max-width:65ch}
+.detail p:last-child{margin:0}
 .people{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px;padding:0;list-style:none}
 .people li{font-family:var(--display);font-size:14px;background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:2px 8px}
 .detail a{color:var(--accent);font-family:var(--display);font-weight:600}
@@ -67,7 +69,6 @@ footer{margin-top:28px;border-top:1px solid var(--line);padding-top:14px;color:v
 <style>
 *{box-sizing:border-box}
 body{margin:0}
-/* Embed režim: bez naslova, svetla tema kao na 021.rs, manji razmaci */
 html.embed .kicker,html.embed h1,html.embed .lede{display:none}
 html.embed .wrap{padding-block:8px 16px}
 html.embed .filters{margin-top:4px}
@@ -84,72 +85,73 @@ if(new URLSearchParams(location.search).get("embed")==="1"){
 
 
 <div class="wrap">
-  <div class="kicker">Izvor: 021.rs · 25. oktobar – 5. novembar 2026.</div>
+  <div class="kicker">25. oktobar – 5. novembar 2026.</div>
   <h1>Hapšenja posle izbora</h1>
-  <p class="lede">Hronologija hapšenja funkcionera, policajaca i osoba osumnjičenih za izborne zloupotrebe od parlamentarnih izbora 25. oktobra. Kliknite na karticu za detalje i link ka tekstu.</p>
+  <p class="lede">Hronologija hapšenja funkcionera, policajaca i osoba osumnjičenih za izborne zloupotrebe i nasilje od parlamentarnih izbora 25. oktobra. Kliknite na karticu za detalje.</p>
 
   <div class="filters" role="group" aria-label="Filter po oblasti" id="filters"></div>
   <div class="count" id="count"></div>
 
   <ol class="tl" id="tl"></ol>
 
-  <footer>Sve osobe su osumnjičene; niko nije pravosnažno osuđen. Spisak nije konačan i obuhvata vesti iz rubrika Info–Srbija, Info–Vojvodina i Novi Sad do 5. novembra u podne.</footer>
+  <footer>Sve osobe su osumnjičene; niko nije pravosnažno osuđen. Spisak nije konačan i ažurira se kako stižu nove vesti. Izvor: 021.rs i drugi mediji.</footer>
 </div>
 
 <script>
 const CATS={
   pol:{label:"Policija",color:"var(--c-pol)"},
-  uprava:{label:"Javna uprava",color:"var(--c-uprava)"},
-  izbori:{label:"Izbori",color:"var(--c-izbori)"},
-  fin:{label:"Finansije",color:"var(--c-fin)"},
+  uprava:{label:"Javna uprava i budžet",color:"var(--c-uprava)"},
+  izbori:{label:"Izborne zloupotrebe",color:"var(--c-izbori)"},
+  nasilje:{label:"Nasilje na izborima",color:"var(--c-nas)"},
+  fin:{label:"Finansije i privreda",color:"var(--c-fin)"},
   obr:{label:"Obrazovanje",color:"var(--c-obr)"}
 };
 const EVENTS=[
- {d:"2026-10-28",cat:"uprava",title:"Saša Bilinović",role:"Načelnik Gradske uprave za privredu, Novi Sad",
-  people:["Saša Bilinović"],
-  text:"Sumnjiči se za nesavestan rad u službi: od 2020. do 2025. nije kontrolisao realizaciju 126 projekata udruženja koje je finansirao Grad. Šteta: 83.260.000 dinara. Tužilaštvo je 29. oktobra predložilo pritvor.",
+ {d:"2026-10-25",cat:"nasilje",n:2,title:"Dve osobe uhapšene zbog ometanja glasanja",
+  text:"Dve osobe su uhapšene zbog sumnje da su sprečavale glasanje i da su se fizički sukobile na biračkom mestu u Leskovcu."},
+ {d:"2026-10-27",cat:"nasilje",n:2,title:"Hapšenje zbog napada u izbornoj noći",
+  text:"Dvojica braće iz Uba privedeni su zbog sumnje da su u izbornoj noći pretukli dvojicu muškaraca iz Mionice."},
+ {d:"2026-10-28",cat:"obr",n:1,title:"Priveden direktor Jovine gimnazije",
+  text:"Radivoje P. Stojković je priveden zbog sumnje da nije postupio po sudskim odlukama kojima se četvoro profesora vraća na posao. Njemu je zabranjen pristup gimnaziji.",
+  url:"https://www.021.rs/novi-sad/vesti/459589/uhapsen-direktor-jovine-gimnazije-radivoje-p-stojkovic"},
+ {d:"2026-10-28",cat:"uprava",n:1,title:"Načelnik gradske uprave u Novom Sadu",
+  text:"Načelnik Gradske uprave za privredu Saša Bilinović sumnjiči se za nesavestan rad u upravi, čime je naneta šteta gradskom budžetu u iznosu od 83 miliona dinara.",
   url:"https://www.021.rs/novi-sad/hronika/459510/uhapsen-nacelnik-novosadske-uprave-ostetio-budzet-grada-za-83-miliona"},
- {d:"2026-10-28",cat:"obr",title:"Radivoje P. Stojković",role:"Direktor Gimnazije „Jovan Jovanović Zmaj”",
-  people:["Radivoje P. Stojković"],
-  text:"Sumnja na četiri krivična dela neizvršenja sudske odluke, jer nije vratio na posao četvoro profesora kako su sudovi naložili. OJT u Bačkoj Palanci predložilo je pritvor.",
-  url:"https://www.021.rs/novi-sad/vesti/459802/micin-o-stojkovicu-tezak-je-covek-ali-istinski-voli-jovinu-gimnaziju-pritvor-je-brutalan-revansizam"},
- {d:"2026-11-01",cat:"pol",title:"Marko Kričak i Boško Sekulović",role:"Načelnik UKP i načelnik Službe za suzbijanje kriminala",
-  people:["Marko Kričak","Boško Sekulović"],
-  text:"Uhapšeni po nalogu VJT u Beogradu zbog nezakonitog postupanja u slučaju „Senjak” i prebijanja osumnjičenih tokom saslušanja. Kričak se sumnjiči da je krivotvorio dokaze i vršio pritisak na svedoke.",
-  url:"https://www.021.rs/info/srbija/459974/uhapsen-marko-kricak"},
- {d:"2026-11-02",cat:"fin",title:"Davor Macura i dvoje saradnika",role:"Vlasnik Alta banke; zaposleni u trezoru",
-  people:["Davor Macura","G.M.","I.P."],
-  text:"Sumnja da je Macura iz trezora „Depo” izneo oko 45 milijardi dinara; dvojica saradnika su mu navodno omogućavala ulazak. Određeno mu je do 30 dana pritvora.",
-  url:"https://www.021.rs/info/srbija/460089/tuzilastvo-sumnja-da-je-davor-macura-izneo-45-milijardi-dinara-iz-trezora"},
- {d:"2026-11-02",cat:"izbori",title:"Kupovina glasova za SNS",role:"Četiri osobe, VJT Novi Sad",
-  people:["K.A.","K.B.","T.J.","M.Đ."],
-  text:"Davanje i primanje mita u vezi sa glasanjem na izborima 25. oktobra. Prema tužilaštvu, glas je plaćen 6.000 dinara. K.A., K.B. i T.J. su priznali delo.",
+ {d:"2026-11-01",cat:"pol",n:2,title:"Uhapšeni Marko Kričak i Boško Sekulović",
+  text:"Načelnik Uprave kriminalističke policije Marko Kričak uhapšen je 1. novembra po nalogu Višeg javnog tužilaštva u Beogradu zbog sumnji da je zloupotrebio službeni položaj, a po krivičnoj prijavi advokata pomoćnika bivšeg direktora policije Veselina Milića. Po istoj prijavi priveden je i načelnik Službe za suzbijanje kriminala Boško Sekulović.",
+  url:"https://www.021.rs/info/srbija/460149/marku-kricku-i-bosku-sekulovicu-odredjeno-do-mesec-dana-pritvora"},
+ {d:"2026-11-02",cat:"izbori",n:4,title:"Četvoro uhapšenih zbog kupovine glasova",
+  text:"Uhapšeni su K. A., K. B., T. J. i M. Đ., zbog postojanja osnova sumnje da su učinili krivično delo Davanje i primanje mita u vezi sa glasanjem iz člana 156. Krivičnog zakonika.",
   url:"https://www.021.rs/novi-sad/hronika/460068/uhapseni-zbog-kupovine-glasova-za-sns-tuzilastvo-u-novom-sadu-otkriva-koliko-je-kostao-glas"},
- {d:"2026-11-02",cat:"izbori",title:"Šest osoba iz Malog Zvornika",role:"Zaposleni u opštinskoj upravi i policijskoj stanici",
-  people:["G.R.","M.O.","F.Dž.","T.J.","N.T.","B.I."],
-  text:"Trgovina uticajem i zloupotreba službenog položaja. Uz naknadu su navodno prijavljivali prebivalište osobama iz BiH u zamenu za glasanje.",
+ {d:"2026-11-02",cat:"fin",n:3,title:"Uhapšen direktor Alta banke Davor Macura",
+  text:"Vlasnik Alta banke Davor Macura uhapšen je zajedno sa još dve osobe, zbog sumnje da je izneo iz trezora 45 milijardi dinara.",
+  url:"https://www.021.rs/info/srbija/460252/davoru-macuri-odredjeno-do-30-dana-pritvora"},
+ {d:"2026-11-02",cat:"izbori",n:6,title:"Hapšenje zbog lažnog prijavljivanja pred izbore",
+  text:"Šest osoba je uhapšeno u Malom Zvorniku zbog sumnje da su omogućavale prijavljivanje prebivališta osobama iz Bosne i Hercegovine kako bi glasale na izborima u Srbiji. Jedna osoba se tereti i da je službenim vozilom odlazila u Ćacilend.",
   url:"https://www.021.rs/novi-sad/hronika/460097/novo-hapsenje-prijavljivali-osobe-iz-bih-na-adrese-u-srbiji-radi-glasanja-sluzbenim-autom-do-cacilenda"},
- {d:"2026-11-03",cat:"uprava",title:"Dragan Krstić",role:"Direktor JKP „Drina”, Mali Zvornik",
-  people:["Dragan Krstić"],
-  text:"Priveden po nalogu VJT u Novom Sadu zbog sumnje na zloupotrebu položaja, odnosno nameštanje nabavki.",
+ {d:"2026-11-03",cat:"uprava",n:1,title:"Direktor JKP „Drina”",
+  text:"Dragan Krstić, direktor JKP „Drina” iz Malog Zvornika, priveden je na osnovu naloga Višeg javnog tužilaštva u Novom Sadu zbog sumnje na zloupotrebu položaja.",
   url:"https://www.021.rs/novi-sad/hronika/460157/po-nalogu-vjt-u-novom-sadu-uhapsen-direktor-jkp-drina-iz-malog-zvornika-sumnja-se-da-je-namestao-nabavke"},
- {d:"2026-11-03",cat:"fin",title:"Jugoslav Nikolić",role:"Direktor Republičkog hidrometeorološkog zavoda",
-  people:["Jugoslav Nikolić","O.N.","Đ.N."],
-  text:"Sumnja na pranje novca i neprijavljivanje imovine. Na račune je navodno uplatio 41,8 miliona dinara bez pokrića i kupovao nekretnine u Beogradu, Užicu i Crnoj Gori. Određeno mu je do 30 dana pritvora.",
+ {d:"2026-11-03",cat:"fin",n:3,title:"Direktor RHMZ Jugoslav Nikolić",
+  text:"Uhapšen direktor RHMZ i još dve osobe osumnjičene za pranje najmanje 650.000 evra: kupovali stanove i poslovne prostore.",
   url:"https://www.021.rs/info/srbija/460230/uhapsen-direktor-rhmz-a-zbog-sumnje-na-pranje-novca-kupovao-nekretnine-u-beogradu-uzicu-i-crnoj-gori"},
- {d:"2026-11-04",cat:"pol",n:9,title:"Igor Žmirić i još osam policajaca",role:"Komandant SAJ-a i pripadnici bivšeg JZO",
-  people:["Igor Žmirić","Goran Filipović","Milan Vuković Baka","još šest"],
-  text:"Sumnja na zlostavljanje i mučenje studenata, među njima Nikoline Sinđelić, u garaži zgrade Vlade 2025. godine. MUP je potvrdio da je privedeno devet osoba.",
+ {d:"2026-11-04",cat:"pol",n:9,title:"Uhapšen komandant SAJ-a Igor Žmirić",
+  text:"Komandant SAJ-a Igor Žmirić, zajedno sa još osam osoba, među kojima je i v. d. direktora Posebne pritvorske jedinice zatvora u Beogradu Milan Vuković Baka, privedeni su zbog sumnje da su počinili krivično delo zlostavljanje i mučenje u garaži zgrade Vlade Srbije u avgustu prošle godine.",
   url:"https://www.021.rs/info/srbija/460350/uhapsen-komandant-saj-a-igor-zmiric"},
- {d:"2026-11-05",cat:"uprava",title:"Predrag Vuletić i Diana Milović",role:"Pokrajinski sekretar za socijalnu politiku; predsednica komisije",
-  people:["Predrag Vuletić","Diana Milović"],
-  text:"Zloupotreba službenog položaja pri dodeli pomoći porodicama sa trećim ili četvrtim detetom (2021–2024). Šteta budžetu Vojvodine: 130.900.000 dinara.",
-  url:"https://www.021.rs/novi-sad/vesti/460412/uhapsen-pokrajinski-sekretar-predrag-vuletic"}
+ {d:"2026-11-04",cat:"nasilje",n:6,title:"Hapšenje zbog napada na bajkere u Nišu",
+  text:"Šest osoba uhapšeno je zbog sumnje da su učestvovale u napadu na bajkere iz mobilnih timova Studentske liste, koji su na dan izbora u Nišu obilazili biračka mesta, objavio je portal Nova.rs."},
+ {d:"2026-11-05",cat:"uprava",n:2,title:"Pokrajinski sekretar Predrag Vuletić",
+  text:"Pokrajinski sekretar za socijalnu politiku Predrag Vuletić priveden je zbog sumnje da je, zajedno sa još jednom osobom, pričinio štetu od 130 miliona dinara budžetu Vojvodine. Privedena je i D. M., predsednica Komisije Pokrajinskog sekretarijata za pregled prijava za dodelu sredstava, zbog produženog krivičnog dela zloupotreba službenog položaja.",
+  url:"https://www.021.rs/novi-sad/vesti/460412/uhapsen-pokrajinski-sekretar-predrag-vuletic"},
+ {d:"2026-11-05",cat:"fin",n:2,title:"Uhapšeni zaposleni u „Naftachem”",
+  text:"Po nalogu Višeg javnog tužilaštva u Novom Sadu uhapšene su dve osobe zaposlene u privrednom društvu „Naftachem Petrol” DOO.",
+  url:"https://www.021.rs/novi-sad/hronika/460395/uhapseni-zaposleni-naftachem-ostetili-preduzece-za-vise-od-31-milion-dinara"},
+ {d:"2026-11-05",cat:"nasilje",n:1,title:"Uhapšen zbog izbornog dana, potraga za Gorskim",
+  text:"Osnovno javno tužilaštvo u Novom Sadu naložilo je hapšenje dve osobe zbog sumnje da su 25. oktobra, na Novom naselju, ugrožavale sigurnost više osoba upućivanjem ozbiljnih pretnji po život. Uhapšen je jedan osumnjičeni D. K., dok se za Gorskim Matovićem još uvek traga."}
 ];
 const MONTHS=["jan","feb","mart","apr","maj","jun","jul","avg","sep","okt","nov","dec"];
 const DAYS=["nedelja","ponedeljak","utorak","sreda","četvrtak","petak","subota"];
 let active=null;
-try{active=localStorage.getItem("filter")||null}catch(e){}
 if(active&&!CATS[active])active=null;
 
 const filters=document.getElementById("filters");
@@ -165,7 +167,7 @@ Object.entries(CATS).forEach(([k,v])=>chip(k,v.label,v.color));
 
 const tl=document.getElementById("tl");
 const byDay={};EVENTS.forEach(e=>(byDay[e.d]=byDay[e.d]||[]).push(e));
-Object.keys(byDay).sort().forEach(d=>{
+Object.keys(byDay).sort().reverse().forEach(d=>{
   const dt=new Date(d+"T12:00:00");
   const li=document.createElement("li");li.className="day";li.dataset.day=d;
   li.innerHTML=`<div class="date"><b>${dt.getDate()}. ${MONTHS[dt.getMonth()]}</b><span>${DAYS[dt.getDay()]}</span></div><div class="events"></div>`;
@@ -174,10 +176,9 @@ Object.keys(byDay).sort().forEach(d=>{
     const c=document.createElement("article");c.className="card";c.dataset.cat=e.cat;c.dataset.idx=EVENTS.indexOf(e);c.style.setProperty("--c",CATS[e.cat].color);
     const id="d-"+d+"-"+i;
     c.innerHTML=`<button type="button" aria-expanded="false" aria-controls="${id}">
-      <div class="tag">${CATS[e.cat].label} · ${(e.n||e.people.length)===1?"1 osoba":(e.n||e.people.length)+" osoba"}</div>
-      <h2>${e.title}</h2><div class="role">${e.role}</div><span class="more">Prikaži detalje +</span></button>
-      <div class="detail" id="${id}" hidden><ul class="people">${e.people.map(p=>`<li>${p}</li>`).join("")}</ul>
-      <p>${e.text}</p><a href="${e.url}" target="_blank" rel="noopener">Pročitaj na 021.rs →</a></div>`;
+      <div class="tag">${CATS[e.cat].label}</div>
+      <h2>${e.title}</h2><div class="role"><span class="n">${e.n}</span> ${e.n===1?"uhapšena osoba":(e.n%10>=2&&e.n%10<=4&&(e.n<12||e.n>14))?"uhapšene osobe":"uhapšenih osoba"}</div><span class="more">Prikaži detalje +</span></button>
+      <div class="detail" id="${id}" hidden><p>${e.text}</p>${e.url?`<a href="${e.url}" target="_blank" rel="noopener">Pročitaj na 021.rs →</a>`:""}</div>`;
     const btn=c.querySelector("button"),det=c.querySelector(".detail"),more=c.querySelector(".more");
     btn.onclick=()=>{const open=det.hidden;det.hidden=!open;btn.setAttribute("aria-expanded",open);more.textContent=open?"Sakrij detalje −":"Prikaži detalje +"};
     ev.appendChild(c);
@@ -190,10 +191,10 @@ function render(){
   let n=0,cases=0;
   tl.querySelectorAll(".day").forEach(day=>{
     let vis=0;
-    day.querySelectorAll(".card").forEach(c=>{const ok=!active||c.dataset.cat===active;c.hidden=!ok;if(ok){vis++;cases++;const e=EVENTS[+c.dataset.idx];n+=e.n||e.people.length}});
+    day.querySelectorAll(".card").forEach(c=>{const ok=!active||c.dataset.cat===active;c.hidden=!ok;if(ok){vis++;cases++;const e=EVENTS[+c.dataset.idx];n+=e.n}});
     day.hidden=vis===0;
   });
-  document.getElementById("count").textContent=`${cases} ${cases===1?"slučaj":"slučajeva"} · najmanje ${n} uhapšenih`;
+  document.getElementById("count").textContent=`${cases} ${cases===1?"slučaj":"slučajeva"} · ukupno ${n} uhapšenih`;
 }
 render();
 </script>
