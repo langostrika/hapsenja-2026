@@ -72,6 +72,10 @@ body{margin:0}
 html.embed .kicker,html.embed h1,html.embed .lede{display:none}
 html.embed .wrap{padding-block:8px 16px}
 html.embed .filters{margin-top:4px}
+html.embed .detail[hidden]{display:block!important}
+html.embed .detail{border-top:0;padding-top:0;margin-top:-4px}
+html.embed .more{display:none}
+html.embed .card button{cursor:default}
 html.embed body{background:transparent}
 </style>
 <script>
@@ -85,7 +89,7 @@ if(new URLSearchParams(location.search).get("embed")==="1"){
 
 
 <div class="wrap">
-  <div class="kicker">25. oktobar – 5. novembar 2026.</div>
+  <div class="kicker">25. oktobar – 6. novembar 2026.</div>
   <h1>Hapšenja posle izbora</h1>
   <p class="lede">Hronologija hapšenja funkcionera, policajaca i osoba osumnjičenih za izborne zloupotrebe i nasilje od parlamentarnih izbora 25. oktobra. Kliknite na karticu za detalje.</p>
 
@@ -147,7 +151,13 @@ const EVENTS=[
   text:"Po nalogu Višeg javnog tužilaštva u Novom Sadu uhapšene su dve osobe zaposlene u privrednom društvu „Naftachem Petrol” DOO.",
   url:"https://www.021.rs/novi-sad/hronika/460395/uhapseni-zaposleni-naftachem-ostetili-preduzece-za-vise-od-31-milion-dinara"},
  {d:"2026-11-05",cat:"nasilje",n:1,title:"Uhapšen zbog izbornog dana, potraga za Gorskim",
-  text:"Osnovno javno tužilaštvo u Novom Sadu naložilo je hapšenje dve osobe zbog sumnje da su 25. oktobra, na Novom naselju, ugrožavale sigurnost više osoba upućivanjem ozbiljnih pretnji po život. Uhapšen je jedan osumnjičeni D. K., dok se za Gorskim Matovićem još uvek traga."}
+  text:"Osnovno javno tužilaštvo u Novom Sadu naložilo je hapšenje dve osobe zbog sumnje da su 25. oktobra, na Novom naselju, ugrožavale sigurnost više osoba upućivanjem ozbiljnih pretnji po život. Uhapšen je jedan osumnjičeni D. K., dok se za Gorskim Matovićem još uvek traga."},
+ {d:"2026-11-06",cat:"uprava",n:1,title:"Priveden upravnik „Zabele”",
+  text:"Upravnik KPZ Zabela Rodoljub Rončević priveden je po nalogu Višeg javnog tužilaštva u Kraljevu, Posebnog odeljenja za suzbijanje korupcije, zbog sumnje na zloupotrebu službenog položaja.",
+  url:"https://www.021.rs/info/srbija/460540/priveden-upravnik-zabele"},
+ {d:"2026-11-06",cat:"pol",n:8,title:"Uhapšena osmorica pripadnika UKP zbog smrti Dalibora Dragijevića",
+  text:"Osmorica pripadnika Uprave kriminalističke policije (UKP) uhapšena su zbog slučaja smrti Dalibora Dragijevića u policijskoj stanici u Boru 7. aprila 2024. Dragijevića je policija privela u okviru istrage o nestanku dvogodišnje Danke Ilić.",
+  url:"https://www.021.rs/info/srbija/460537/uhapsena-osmorica-policajaca-zbog-smrti-dalibora-dragijevica-u-policijskoj-stanici"}
 ];
 const MONTHS=["jan","feb","mart","apr","maj","jun","jul","avg","sep","okt","nov","dec"];
 const DAYS=["nedelja","ponedeljak","utorak","sreda","četvrtak","petak","subota"];
@@ -180,7 +190,7 @@ Object.keys(byDay).sort().reverse().forEach(d=>{
       <h2>${e.title}</h2><div class="role"><span class="n">${e.n}</span> ${e.n===1?"uhapšena osoba":(e.n%10>=2&&e.n%10<=4&&(e.n<12||e.n>14))?"uhapšene osobe":"uhapšenih osoba"}</div><span class="more">Prikaži detalje +</span></button>
       <div class="detail" id="${id}" hidden><p>${e.text}</p>${e.url?`<a href="${e.url}" target="_blank" rel="noopener">Pročitaj na 021.rs →</a>`:""}</div>`;
     const btn=c.querySelector("button"),det=c.querySelector(".detail"),more=c.querySelector(".more");
-    btn.onclick=()=>{const open=det.hidden;det.hidden=!open;btn.setAttribute("aria-expanded",open);more.textContent=open?"Sakrij detalje −":"Prikaži detalje +"};
+    btn.onclick=()=>{if(document.documentElement.classList.contains("embed"))return;const open=det.hidden;det.hidden=!open;btn.setAttribute("aria-expanded",open);more.textContent=open?"Sakrij detalje −":"Prikaži detalje +"};
     ev.appendChild(c);
   });
   tl.appendChild(li);
