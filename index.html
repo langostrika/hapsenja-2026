@@ -72,10 +72,6 @@ body{margin:0}
 html.embed .kicker,html.embed h1,html.embed .lede{display:none}
 html.embed .wrap{padding-block:8px 16px}
 html.embed .filters{margin-top:4px}
-html.embed .detail[hidden]{display:block!important}
-html.embed .detail{border-top:0;padding-top:0;margin-top:-4px}
-html.embed .more{display:none}
-html.embed .card button{cursor:default}
 html.embed body{background:transparent}
 </style>
 <script>
@@ -190,7 +186,10 @@ Object.keys(byDay).sort().reverse().forEach(d=>{
       <h2>${e.title}</h2><div class="role"><span class="n">${e.n}</span> ${e.n===1?"uhapšena osoba":(e.n%10>=2&&e.n%10<=4&&(e.n<12||e.n>14))?"uhapšene osobe":"uhapšenih osoba"}</div><span class="more">Prikaži detalje +</span></button>
       <div class="detail" id="${id}" hidden><p>${e.text}</p>${e.url?`<a href="${e.url}" target="_blank" rel="noopener">Pročitaj na 021.rs →</a>`:""}</div>`;
     const btn=c.querySelector("button"),det=c.querySelector(".detail"),more=c.querySelector(".more");
-    btn.onclick=()=>{if(document.documentElement.classList.contains("embed"))return;const open=det.hidden;det.hidden=!open;btn.setAttribute("aria-expanded",open);more.textContent=open?"Sakrij detalje −":"Prikaži detalje +"};
+    btn.onclick=()=>{const open=det.hidden;
+      if(open&&document.documentElement.classList.contains("embed")){
+        tl.querySelectorAll(".card").forEach(o=>{if(o!==c){const d=o.querySelector(".detail");if(!d.hidden){d.hidden=true;o.querySelector("button").setAttribute("aria-expanded","false");o.querySelector(".more").textContent="Prikaži detalje +"}}});
+      }det.hidden=!open;btn.setAttribute("aria-expanded",open);more.textContent=open?"Sakrij detalje −":"Prikaži detalje +"};
     ev.appendChild(c);
   });
   tl.appendChild(li);
