@@ -12,17 +12,17 @@
 :root{
   --bg:#f6f6f4; --surface:#ffffff; --fg:#1b1d22; --muted:#5d6370; --line:#d9dbdf;
   --accent:#c8102e;
-  --c-pol:#1f5fa8; --c-uprava:#8a5a00; --c-izbori:#6b3fa0; --c-fin:#0f7a5c; --c-obr:#9c3d5a; --c-nas:#b5431c;
+  --c-pol:#1f5fa8; --c-uprava:#8a5a00; --c-izbori:#6b3fa0; --c-fin:#0f7a5c; --c-obr:#9c3d5a; --c-nas:#b5431c; --c-pret:#5b6b1e;
   --display:"Archivo Narrow","Arial Narrow",Arial,sans-serif;
   --body:"Source Serif 4",Georgia,serif;
   --mono:"IBM Plex Mono",ui-monospace,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#121317; --surface:#1b1d23; --fg:#ecedf0; --muted:#a2a7b3; --line:#30333b;
-  --accent:#ff5468; --c-pol:#6ea8ff; --c-uprava:#e0aa45; --c-izbori:#b892ec; --c-fin:#4fcf9f; --c-obr:#ec8aa8; --c-nas:#f08a5d; color-scheme:dark}}
+  --accent:#ff5468; --c-pol:#6ea8ff; --c-uprava:#e0aa45; --c-izbori:#b892ec; --c-fin:#4fcf9f; --c-obr:#ec8aa8; --c-nas:#f08a5d; --c-pret:#b9cc5a; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#121317; --surface:#1b1d23; --fg:#ecedf0; --muted:#a2a7b3; --line:#30333b;
-  --accent:#ff5468; --c-pol:#6ea8ff; --c-uprava:#e0aa45; --c-izbori:#b892ec; --c-fin:#4fcf9f; --c-obr:#ec8aa8; --c-nas:#f08a5d; color-scheme:dark}
+  --accent:#ff5468; --c-pol:#6ea8ff; --c-uprava:#e0aa45; --c-izbori:#b892ec; --c-fin:#4fcf9f; --c-obr:#ec8aa8; --c-nas:#f08a5d; --c-pret:#b9cc5a; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55}
 .wrap{max-width:820px;margin:0 auto;padding-block:32px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
@@ -85,7 +85,7 @@ if(new URLSearchParams(location.search).get("embed")==="1"){
 
 
 <div class="wrap">
-  <div class="kicker">25. oktobar – 6. novembar 2026.</div>
+  <div class="kicker">25. oktobar – 12. novembar 2026.</div>
   <h1>Hapšenja posle izbora</h1>
   <p class="lede">Hronologija hapšenja funkcionera, policajaca i osoba osumnjičenih za izborne zloupotrebe i nasilje od parlamentarnih izbora 25. oktobra. Kliknite na karticu za detalje.</p>
 
@@ -104,6 +104,7 @@ const CATS={
   izbori:{label:"Izborne zloupotrebe",color:"var(--c-izbori)"},
   nasilje:{label:"Nasilje na izborima",color:"var(--c-nas)"},
   fin:{label:"Finansije i privreda",color:"var(--c-fin)"},
+  pretnje:{label:"Pretnje i iznude",color:"var(--c-pret)"},
   obr:{label:"Obrazovanje",color:"var(--c-obr)"}
 };
 const EVENTS=[
@@ -153,7 +154,25 @@ const EVENTS=[
   url:"https://www.021.rs/info/srbija/460540/priveden-upravnik-zabele"},
  {d:"2026-11-06",cat:"pol",n:8,title:"Uhapšena osmorica pripadnika UKP zbog smrti Dalibora Dragijevića",
   text:"Osmorica pripadnika Uprave kriminalističke policije (UKP) uhapšena su zbog slučaja smrti Dalibora Dragijevića u policijskoj stanici u Boru 7. aprila 2024. Dragijevića je policija privela u okviru istrage o nestanku dvogodišnje Danke Ilić.",
-  url:"https://www.021.rs/info/srbija/460537/uhapsena-osmorica-policajaca-zbog-smrti-dalibora-dragijevica-u-policijskoj-stanici"}
+  url:"https://www.021.rs/info/srbija/460537/uhapsena-osmorica-policajaca-zbog-smrti-dalibora-dragijevica-u-policijskoj-stanici"},
+ {d:"2026-11-12",cat:"fin",n:2,title:"Isplaćivali milione za fiktivne radove",
+  text:"Dve osobe iz novosadske firme „Illi Group” uhapšene su zbog sumnje da su isplaćivali milione na račune navodnih dobavljača na ime fiktivnih radova.",
+  url:"https://www.021.rs/novi-sad/vesti/461076/uhapsene-dve-osobe-iz-novosadske-firme-isplacivali-milione-za-fiktivne-radove"},
+ {d:"2026-11-12",cat:"uprava",n:1,title:"Hapšenje zbog projekata u Novom Sadu",
+  text:"Zastupnik novosadskog udruženja građana „Signum” uhapšen je zbog zloupotrebe položaja odgovornog lica. Od Novog Sada je dobio 2,7 miliona dinara za održavanje manifestacije koja se nikada nije dogodila.",
+  url:"https://www.021.rs/novi-sad/vesti/461079/hapsenje-u-novom-sadu-zbog-projekata-ostetio-budzet-za-27-miliona"},
+ {d:"2026-11-11",cat:"uprava",n:8,title:"Uhapšen bivši ministar Rade Basta",
+  text:"Rade Basta uhapšen je zbog sumnje da je, dok je bio direktor JKP „Beogradske elektrane”, oštetio preduzeće za 14,1 milion dinara. Osim njega, uhapšeno je još sedam osoba.",
+  url:"https://www.021.rs/info/srbija/461037/vjt-zbog-sumnje-da-je-basta-neosnovano-dodelio-donacije-od-skoro-15-miliona-dinara-uhapseno-jos-sedam-osoba"},
+ {d:"2026-11-11",cat:"pretnje",n:1,title:"Uhapšen Miljan Hofman",
+  text:"Miljan Vidović Hofman uhapšen je navodno zbog krivičnog dela iznude. Hofman je javnosti poznat po bahatom ponašanju.",
+  url:"https://www.021.rs/info/srbija/461030/uhapsen-miljan-hofman"},
+ {d:"2026-11-10",cat:"pretnje",n:4,title:"Uhapšeni zbog pretnji Brankici Stanković",
+  text:"Četiri osobe su uhapšene zbog sumnje da su 2023. godine, tokom košarkaške utakmice, pretile novinarki Brankici Stanković.",
+  url:"https://www.021.rs/info/srbija/460970/uhapseni-osumnjiceni-da-su-2023-pretili-brankici-stankovic-tri-osobe-u-bekstvu"},
+ {d:"2026-11-09",cat:"fin",n:2,title:"Uhapšeni osnivač „Bobar Beška” i direktor „Holding Centroslavija”",
+  text:"Uhapšeni su zbog zloupotrebe položaja odgovornog lica u saizvršilaštvu.",
+  url:"https://www.021.rs/novi-sad/hronika/460820/uhapseni-osnivac-bobar-beska-i-direktor-holding-centroslavija-novcem-firme-kupovali-njene-akcije"}
 ];
 const MONTHS=["jan","feb","mart","apr","maj","jun","jul","avg","sep","okt","nov","dec"];
 const DAYS=["nedelja","ponedeljak","utorak","sreda","četvrtak","petak","subota"];
