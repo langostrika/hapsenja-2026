@@ -12,17 +12,17 @@
 :root{
   --bg:#f6f6f4; --surface:#ffffff; --fg:#1b1d22; --muted:#5d6370; --line:#d9dbdf;
   --accent:#c8102e;
-  --c-pol:#1f5fa8; --c-uprava:#8a5a00; --c-izbori:#6b3fa0; --c-fin:#0f7a5c; --c-obr:#9c3d5a; --c-nas:#b5431c; --c-pret:#5b6b1e;
+  --c-pol:#1f5fa8; --c-uprava:#8a5a00; --c-izbori:#6b3fa0; --c-fin:#0f7a5c; --c-obr:#9c3d5a; --c-nas:#b5431c; --c-pret:#5b6b1e; --c-med:#2f6f7a;
   --display:"Archivo Narrow","Arial Narrow",Arial,sans-serif;
   --body:"Source Serif 4",Georgia,serif;
   --mono:"IBM Plex Mono",ui-monospace,monospace;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#121317; --surface:#1b1d23; --fg:#ecedf0; --muted:#a2a7b3; --line:#30333b;
-  --accent:#ff5468; --c-pol:#6ea8ff; --c-uprava:#e0aa45; --c-izbori:#b892ec; --c-fin:#4fcf9f; --c-obr:#ec8aa8; --c-nas:#f08a5d; --c-pret:#b9cc5a; color-scheme:dark}}
+  --accent:#ff5468; --c-pol:#6ea8ff; --c-uprava:#e0aa45; --c-izbori:#b892ec; --c-fin:#4fcf9f; --c-obr:#ec8aa8; --c-nas:#f08a5d; --c-pret:#b9cc5a; --c-med:#6cc6d3; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#121317; --surface:#1b1d23; --fg:#ecedf0; --muted:#a2a7b3; --line:#30333b;
-  --accent:#ff5468; --c-pol:#6ea8ff; --c-uprava:#e0aa45; --c-izbori:#b892ec; --c-fin:#4fcf9f; --c-obr:#ec8aa8; --c-nas:#f08a5d; --c-pret:#b9cc5a; color-scheme:dark}
+  --accent:#ff5468; --c-pol:#6ea8ff; --c-uprava:#e0aa45; --c-izbori:#b892ec; --c-fin:#4fcf9f; --c-obr:#ec8aa8; --c-nas:#f08a5d; --c-pret:#b9cc5a; --c-med:#6cc6d3; color-scheme:dark}
 body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55}
 .wrap{max-width:820px;margin:0 auto;padding-block:32px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
@@ -47,6 +47,7 @@ ol.tl::before{content:"";position:absolute;left:84px;top:6px;bottom:6px;width:2p
 .tag{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--c)}
 .card h2{font-family:var(--display);font-size:21px;font-weight:600;line-height:1.2;margin:3px 0 2px}
 .role{color:var(--muted);font-size:15px}
+.role .wanted{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
 .role .n{font-family:var(--mono);font-weight:500;color:var(--fg)}
 .more{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:6px;display:inline-block}
 .detail{padding:0 16px 16px;border-top:1px dashed var(--line);margin:0 16px;padding-inline:0;padding-top:12px}
@@ -85,7 +86,7 @@ if(new URLSearchParams(location.search).get("embed")==="1"){
 
 
 <div class="wrap">
-  <div class="kicker">25. oktobar – 12. novembar 2026.</div>
+  <div class="kicker">25. oktobar – 25. novembar 2026.</div>
   <h1>Hapšenja posle izbora</h1>
   <p class="lede">Hronologija hapšenja funkcionera, policajaca i osoba osumnjičenih za izborne zloupotrebe i nasilje od parlamentarnih izbora 25. oktobra. Kliknite na karticu za detalje.</p>
 
@@ -104,7 +105,8 @@ const CATS={
   izbori:{label:"Izborne zloupotrebe",color:"var(--c-izbori)"},
   nasilje:{label:"Nasilje na izborima",color:"var(--c-nas)"},
   fin:{label:"Finansije i privreda",color:"var(--c-fin)"},
-  pretnje:{label:"Pretnje i iznude",color:"var(--c-pret)"},
+  pretnje:{label:"Pretnje, iznude i napadi",color:"var(--c-pret)"},
+  mediji:{label:"Mediji",color:"var(--c-med)"},
   obr:{label:"Obrazovanje",color:"var(--c-obr)"}
 };
 const EVENTS=[
@@ -172,7 +174,38 @@ const EVENTS=[
   url:"https://www.021.rs/info/srbija/460970/uhapseni-osumnjiceni-da-su-2023-pretili-brankici-stankovic-tri-osobe-u-bekstvu"},
  {d:"2026-11-09",cat:"fin",n:2,title:"Uhapšeni osnivač „Bobar Beška” i direktor „Holding Centroslavija”",
   text:"Uhapšeni su zbog zloupotrebe položaja odgovornog lica u saizvršilaštvu.",
-  url:"https://www.021.rs/novi-sad/hronika/460820/uhapseni-osnivac-bobar-beska-i-direktor-holding-centroslavija-novcem-firme-kupovali-njene-akcije"}
+  url:"https://www.021.rs/novi-sad/hronika/460820/uhapseni-osnivac-bobar-beska-i-direktor-holding-centroslavija-novcem-firme-kupovali-njene-akcije"},
+ {d:"2026-11-25",cat:"mediji",n:1,title:"Uhapšen Dragan J. Vučićević",
+  text:"Uhapšen je vlasnik tabloidne televizije Informer Dragan J. Vučićević, koji je godinama poznat po neprofesionalnom izveštavanju. Kako portal Nova.rs javlja, Vučićević je uhapšen zbog izazivanja panike i nereda u produženom trajanju i ometanja pravde.",
+  url:"https://www.021.rs/info/srbija/462486/uhapsen-dragan-j-vucicevic"},
+ {d:"2026-11-25",cat:"obr",n:1,title:"Uhapšen bivši direktor OŠ „Prva vojvođanska brigada”",
+  text:"Uhapšen je bivši direktor OŠ „Prva vojvođanska brigada” O. S. zbog sumnje da je oštetio školu za više od 54 miliona dinara. Bivši direktor škole se sumnjiči za nesavestan rad u službi i zloupotrebu službenog položaja.",
+  url:"https://www.021.rs/novi-sad/hronika/462487/uhapsen-bivsi-direktor-os-prva-vojvodjanska-brigada"},
+ {d:"2026-11-24",cat:"izbori",n:1,title:"Uhapšen Pavle Bihali",
+  text:"Bihali je osumnjičen da je od maja do jula 2022. godine, u svojstvu odgovornog lica, iskoristio svoja ovlašćenja i sebi pribavio protivpravnu imovinsku korist veću od 22,5 miliona dinara, za koliko je oštećen budžet Srbije i Grada Beograda.",
+  url:"https://www.021.rs/info/srbija/462442/tuzilastvo-bihali-prisvojio-225-miliona-dinara-od-kampanje-rusko-manjinskog-saveza"},
+ {d:"2026-11-24",cat:"fin",n:0,title:"Potraga za Vladimirom Mandićem",
+  text:"Više javno tužilaštvo u Nišu naložilo je hapšenje bivšeg rukometaša Vladimira Mandića, za koga je utvrđeno da se ne nalazi u Srbiji. On se sumnjiči da je kao vlasnik i odgovorno lice u privrednom društvu „Manco plus” d.o.o. Beograd izvršio krivično delo zloupotreba položaja odgovornog lica."},
+ {d:"2026-11-23",cat:"fin",n:1,title:"Slučaj direktora novosadskog GAT-a",
+  text:"Više javno tužilaštvo u Nišu saopštilo je 19. novembra da je direktor novosadske firme GAT Dejan Slijepčević u bekstvu i da je raspisana potraga za njim. On se sumnjiči za krivično delo zloupotrebe u vezi sa javnom nabavkom. Slijepčević je pristupio policiji 23. novembra, nakon čega mu je određen pritvor. Iz njegove firme tvrde da nije bio u bekstvu, već da nije bio dostupan iz zdravstvenih razloga.",
+  url:"https://www.021.rs/novi-sad/hronika/462469/odredjen-pritvor-vlasniku-gat-a"},
+ {d:"2026-11-22",cat:"uprava",n:2,title:"Uhapšen direktor PIO fonda u Bačkoj Palanci",
+  text:"Direktor filijale PIO fonda u Bačkoj Palanci D. J. i rukovodilac Odeljenja za opštu upravu, društvene delatnosti i zajedničke poslove Opštinske uprave Bač N. K. uhapšeni su zbog zloupotrebe službenog položaja."},
+ {d:"2026-11-19",cat:"uprava",n:6,title:"Hapšenja u javnoj upravi u Leskovcu",
+  text:"Policija je uhapsila šestoro zaposlenih u leskovačkoj Gradskoj upravi zbog sumnje na zloupotrebe pri javnim nabavkama.",
+  url:"https://www.021.rs/info/srbija/461894/uhapseno-sestoro-zaposlenih-u-gradskoj-upravi-leskovca-sumnje-na-zloupotrebe-oko-javne-nabavke"},
+ {d:"2026-11-18",cat:"pretnje",n:2,title:"Uhapšeni zbog paljenja restorana u Novom Sadu",
+  text:"Novosadska policija je uhapsila A. I. (20) i Š. B. (23) iz Beograda zbog teškog dela protiv opšte sigurnosti u vezi sa krivičnim delom izazivanje opšte opasnosti. Kako se sumnja, oni su 5. novembra na Bulevaru patrijarha Pavla zapalili zastakljenu baštu restorana Piccante, tako što su razbili staklo i ubacili Molotovljev koktel.",
+  url:"https://www.021.rs/novi-sad/hronika/461757/paljenje-restorana-piccante-u-novom-sadu-dvoje-uhapsenih-zbog-bacanja-molotovljevog-koktela"},
+ {d:"2026-11-17",cat:"pretnje",n:0,title:"Poternica za Milanom Radoičićem",
+  text:"Viši sud u Beogradu doneo je rešenje o pritvoru i raspisivanju poternice za Milanom Radoičićem, bivšim potpredsednikom Srpske liste.",
+  url:"https://www.021.rs/info/srbija/461634/za-milanom-radoicicem-raspisana-poternica"},
+ {d:"2026-11-16",cat:"obr",n:2,title:"Uhapšen dekan DIF-a Patrik Drid",
+  text:"Dekan Fakulteta sporta i fizičkog vaspitanja Patrik Drid je uhapšen. Kako je saopštilo tužilaštvo, Drid se, zajedno sa bivšim dekanom DIF-a, tereti za zloupotrebu službenog položaja.",
+  url:"https://www.021.rs/novi-sad/vesti/461487/detalji-hapsenja-drida-milionska-steta-priveden-i-bivsi-dekan-dif-a"},
+ {d:"2026-11-16",cat:"pretnje",n:6,title:"Hapšenje zbog pretnji Brankici Stanković",
+  text:"Treće osnovno javno tužilaštvo u Beogradu saopštilo je da je, pored prethodno uhapšenih, po nalogu ovog tužilaštva uhapšeno još šest osoba zbog sumnje da su pretile novinarki Brankici Stanković.",
+  url:"https://www.021.rs/info/srbija/461548/uhapseno-jos-sest-osoba-zbog-pretnji-brankici-stankovic"}
 ];
 const MONTHS=["jan","feb","mart","apr","maj","jun","jul","avg","sep","okt","nov","dec"];
 const DAYS=["nedelja","ponedeljak","utorak","sreda","četvrtak","petak","subota"];
@@ -202,7 +235,7 @@ Object.keys(byDay).sort().reverse().forEach(d=>{
     const id="d-"+d+"-"+i;
     c.innerHTML=`<button type="button" aria-expanded="false" aria-controls="${id}">
       <div class="tag">${CATS[e.cat].label}</div>
-      <h2>${e.title}</h2><div class="role"><span class="n">${e.n}</span> ${e.n===1?"uhapšena osoba":(e.n%10>=2&&e.n%10<=4&&(e.n<12||e.n>14))?"uhapšene osobe":"uhapšenih osoba"}</div><span class="more">Prikaži detalje +</span></button>
+      <h2>${e.title}</h2><div class="role">${e.n===0?'<span class="wanted">Potraga u toku</span>':`<span class="n">${e.n}</span> ${e.n===1?"uhapšena osoba":(e.n%10>=2&&e.n%10<=4&&(e.n<12||e.n>14))?"uhapšene osobe":"uhapšenih osoba"}`}</div><span class="more">Prikaži detalje +</span></button>
       <div class="detail" id="${id}" hidden><p>${e.text}</p>${e.url?`<a href="${e.url}" target="_blank" rel="noopener">Pročitaj na 021.rs →</a>`:""}</div>`;
     const btn=c.querySelector("button"),det=c.querySelector(".detail"),more=c.querySelector(".more");
     btn.onclick=()=>{const open=det.hidden;
@@ -222,7 +255,7 @@ function render(){
     day.querySelectorAll(".card").forEach(c=>{const ok=!active||c.dataset.cat===active;c.hidden=!ok;if(ok){vis++;cases++;const e=EVENTS[+c.dataset.idx];n+=e.n}});
     day.hidden=vis===0;
   });
-  document.getElementById("count").textContent=`${cases} ${cases===1?"slučaj":"slučajeva"} · ukupno ${n} uhapšenih`;
+  document.getElementById("count").textContent=`${cases} ${cases===1?"slučaj":(cases%10>=2&&cases%10<=4&&(cases%100<12||cases%100>14))?"slučaja":"slučajeva"} · ukupno ${n} uhapšenih`;
 }
 render();
 </script>
